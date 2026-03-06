@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- Outer blue circle -->
+  <circle cx="200" cy="200" r="195" fill="#0B3D91"/>
+  <!-- White orbital ring -->
+  <ellipse cx="200" cy="200" rx="195" ry="60" fill="none" stroke="white" stroke-width="22" transform="rotate(-30 200 200)"/>
+  <!-- Red chevron bar -->
+  <rect x="0" y="175" width="400" height="50" fill="#FC3D21"/>
+  <!-- Mask the chevron to stay inside circle -->
+  <circle cx="200" cy="200" r="195" fill="none" stroke="#0B3D91" stroke-width="10"/>
+  <!-- NASA text -->
+  <text x="200" y="220" font-family="Arial Black, sans-serif" font-size="88" font-weight="900" fill="white" text-anchor="middle" letter-spacing="-2">NASA</text>
+</svg>
