@@ -27,9 +27,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/stats" className="text-gray-400 hover:text-white transition-colors">
               Stats
             </Link>
-            <Link href="/pipeline" className="text-gray-400 hover:text-white transition-colors">
-              Pipeline
-            </Link>
             <Link href="/updates" className="text-gray-400 hover:text-white transition-colors">
               Updates
             </Link>
