@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Map, useControl, useMap } from 'react-map-gl/maplibre'
+import { Map, Source, Layer, useControl, useMap } from 'react-map-gl/maplibre'
 import { MapboxOverlay } from '@deck.gl/mapbox'
 import { MapCell } from '@/types/api'
 import { useMapData } from '@/hooks/useMapData'
@@ -20,6 +20,11 @@ const INITIAL_VIEW_STATE = {
 }
 
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json'
+
+function getNasaGibsTileUrl(date: string | null): string {
+  const d = date ?? new Date().toISOString().split('T')[0]
+  return `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_SNPP_CorrectedReflectance_TrueColor/default/${d}/GoogleMapsCompatible/{z}/{y}/{x}.jpg`
+}
 
 interface HoverInfo {
   x: number
@@ -69,7 +74,7 @@ function DeckGLOverlay({
 }
 
 export function WildfireMap() {
-  const { selectedDate, openCell } = useStore()
+  const { selectedDate, openCell, showSatellite } = useStore()
   const { data, isLoading } = useMapData(selectedDate)
   const [hoverInfo, setHoverInfo] = useState<HoverInfo | null>(null)
 
@@ -91,6 +96,17 @@ export function WildfireMap() {
         attributionControl={false}
         style={{ width: '100%', height: '100%' }}
       >
+        {showSatellite && (
+          <Source
+            id="nasa-gibs"
+            type="raster"
+            tiles={[getNasaGibsTileUrl(selectedDate)]}
+            tileSize={256}
+            attribution="NASA GIBS / VIIRS SNPP"
+          >
+            <Layer id="satellite-layer" type="raster" paint={{ 'raster-opacity': 0.75 }} />
+          </Source>
+        )}
         <DeckGLOverlay layers={layers} onHover={setHoverInfo} />
         <FlyController />
       </Map>

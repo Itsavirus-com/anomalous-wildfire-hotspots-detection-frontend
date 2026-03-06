@@ -5,7 +5,7 @@ import { useMapData } from '@/hooks/useMapData'
 import { useStore } from '@/store/useStore'
 
 export function MapControls() {
-  const { selectedDate } = useStore()
+  const { selectedDate, showSatellite, toggleSatellite } = useStore()
   const { data } = useMapData(selectedDate)
 
   return (
@@ -23,6 +23,19 @@ export function MapControls() {
           </div>
         </div>
       )}
+
+      {/* Satellite toggle */}
+      <button
+        onClick={toggleSatellite}
+        title="Toggle NASA VIIRS satellite imagery"
+        className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium border transition-colors ${
+          showSatellite
+            ? 'bg-blue-600 border-blue-500 text-white'
+            : 'bg-gray-800 border-gray-600 text-gray-400 hover:text-white'
+        }`}
+      >
+        🛰 Satellite
+      </button>
 
       {/* Legend */}
       <div className="flex items-center gap-1.5 pl-2 border-l border-gray-700">

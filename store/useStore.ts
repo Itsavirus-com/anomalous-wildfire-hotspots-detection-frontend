@@ -10,6 +10,7 @@ interface AppState {
   selectedCell: string | null
   panelOpen: boolean
   flyTarget: FlyTarget | null
+  showSatellite: boolean
 
   setSelectedDate: (date: string | null) => void
   setSelectedCell: (h3Index: string | null) => void
@@ -18,6 +19,7 @@ interface AppState {
   openCellAt: (h3Index: string, lat: number, lng: number) => void
   closePanel: () => void
   clearFlyTarget: () => void
+  toggleSatellite: () => void
 }
 
 export const useStore = create<AppState>((set) => ({
@@ -25,6 +27,7 @@ export const useStore = create<AppState>((set) => ({
   selectedCell: null,
   panelOpen: false,
   flyTarget: null,
+  showSatellite: false,
 
   setSelectedDate: (date) => set({ selectedDate: date }),
   setSelectedCell: (h3Index) => set({ selectedCell: h3Index }),
@@ -34,4 +37,5 @@ export const useStore = create<AppState>((set) => ({
     set({ selectedCell: h3Index, panelOpen: true, flyTarget: { latitude: lat, longitude: lng } }),
   closePanel: () => set({ panelOpen: false, selectedCell: null }),
   clearFlyTarget: () => set({ flyTarget: null }),
+  toggleSatellite: () => set((state) => ({ showSatellite: !state.showSatellite })),
 }))
