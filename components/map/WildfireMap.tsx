@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Map, Source, Layer, useControl, useMap } from 'react-map-gl/maplibre'
+import { Map, useControl, useMap } from 'react-map-gl/maplibre'
 import { MapboxOverlay } from '@deck.gl/mapbox'
 import { MapCell } from '@/types/api'
 import { useMapData } from '@/hooks/useMapData'
@@ -22,8 +22,10 @@ const INITIAL_VIEW_STATE = {
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json'
 
 function getNasaGibsTileUrl(date: string | null): string {
-  const d = date ?? new Date().toISOString().split('T')[0]
-  return `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_SNPP_CorrectedReflectance_TrueColor/default/${d}/GoogleMapsCompatible/{z}/{y}/{x}.jpg`
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  const d = date ?? yesterday.toISOString().split('T')[0]
+  return `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_SNPP_CorrectedReflectance_TrueColor/default/${d}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`
 }
 
 interface HoverInfo {
@@ -32,7 +34,6 @@ interface HoverInfo {
   cell: MapCell
 }
 
-// Fly to a target coordinate when flyTarget changes in the store
 function FlyController() {
   const { flyTarget, clearFlyTarget } = useStore()
   const { current: map } = useMap()
@@ -46,7 +47,6 @@ function FlyController() {
   return null
 }
 
-// DeckGL overlay injected into MapLibre's render pipeline via useControl
 function DeckGLOverlay({
   layers,
   onHover,
@@ -73,6 +73,49 @@ function DeckGLOverlay({
   return null
 }
 
+function SatelliteLayer({ date }: { date: string | null }) {
+  const { current: mapRef } = useMap()
+
+  useEffect(() => {
+    const map = mapRef?.getMap()
+    if (!map) return
+
+    const tileUrl = getNasaGibsTileUrl(date)
+
+    const addLayers = () => {
+      if (!map.getSource('nasa-gibs')) {
+        map.addSource('nasa-gibs', {
+          type: 'raster',
+          tiles: [tileUrl],
+          tileSize: 256,
+          maxzoom: 9,
+          attribution: 'NASA GIBS / VIIRS SNPP',
+        })
+      }
+      if (!map.getLayer('satellite-layer')) {
+        map.addLayer(
+          { id: 'satellite-layer', type: 'raster', source: 'nasa-gibs', paint: { 'raster-opacity': 0.8 } },
+          map.getLayer('water') ? 'water' : undefined
+        )
+      }
+    }
+
+    if (map.isStyleLoaded()) {
+      addLayers()
+    } else {
+      map.once('load', addLayers)
+    }
+
+    return () => {
+      if (map.getLayer('satellite-layer')) map.removeLayer('satellite-layer')
+      if (map.getSource('nasa-gibs')) map.removeSource('nasa-gibs')
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapRef, date])
+
+  return null
+}
+
 export function WildfireMap() {
   const { selectedDate, openCell, showSatellite } = useStore()
   const { data, isLoading } = useMapData(selectedDate)
@@ -96,17 +139,7 @@ export function WildfireMap() {
         attributionControl={false}
         style={{ width: '100%', height: '100%' }}
       >
-        {showSatellite && (
-          <Source
-            id="nasa-gibs"
-            type="raster"
-            tiles={[getNasaGibsTileUrl(selectedDate)]}
-            tileSize={256}
-            attribution="NASA GIBS / VIIRS SNPP"
-          >
-            <Layer id="satellite-layer" type="raster" paint={{ 'raster-opacity': 0.75 }} />
-          </Source>
-        )}
+        {showSatellite && <SatelliteLayer date={selectedDate} />}
         <DeckGLOverlay layers={layers} onHover={setHoverInfo} />
         <FlyController />
       </Map>
