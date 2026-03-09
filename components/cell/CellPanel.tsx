@@ -27,7 +27,7 @@ export function CellPanel() {
   if (!panelOpen || !selectedCell) return null
 
   return (
-    <div className="absolute right-0 top-0 h-full w-80 bg-gray-900 border-l border-gray-700 flex flex-col z-10 shadow-2xl">
+    <div className="h-full w-full bg-gray-900 border-l border-gray-700 flex flex-col shadow-2xl">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700 shrink-0">
         <h3 className="text-sm font-semibold text-white">Area Detail</h3>

@@ -9,7 +9,7 @@ export function MapControls() {
   const { data } = useMapData(selectedDate)
 
   return (
-    <div className="absolute top-3 left-3 z-10 flex items-center gap-3 bg-gray-900/90 backdrop-blur-sm border border-gray-700 rounded-lg px-3 py-2 shadow-lg">
+    <div className="absolute top-3 left-3 z-10 flex flex-wrap items-center gap-2 bg-gray-900/90 backdrop-blur-sm border border-gray-700 rounded-lg px-3 py-2 shadow-lg max-w-[calc(100vw-5rem)]">
       <DatePicker />
       {data && (
         <div className="flex items-center gap-3 pl-2 border-l border-gray-700">
@@ -34,11 +34,11 @@ export function MapControls() {
             : 'bg-gray-800 border-gray-600 text-gray-400 hover:text-white'
         }`}
       >
-        🛰 Satellite
+        🛰 <span className="hidden sm:inline">Satellite</span>
       </button>
 
       {/* Legend */}
-      <div className="flex items-center gap-1.5 pl-2 border-l border-gray-700">
+      <div className="hidden sm:flex items-center gap-1.5 pl-2 border-l border-gray-700">
         <span className="text-xs text-gray-600 mr-0.5">Heat anomaly:</span>
         {[
           { color: 'bg-red-600',    label: 'Critical', title: 'Very unusual heat intensity — far above historical average' },

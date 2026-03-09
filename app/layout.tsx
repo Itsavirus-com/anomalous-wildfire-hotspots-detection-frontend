@@ -12,36 +12,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <body className="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
-        <nav className="h-12 bg-gray-900 border-b border-gray-800 flex items-center px-4 gap-6 shrink-0 z-50">
-          <Link href="/" className="flex items-center gap-2">
+        <nav className="h-12 bg-gray-900 border-b border-gray-800 flex items-center px-4 gap-4 shrink-0 z-50">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
             <span className="font-bold text-sm text-white">Wildfire Monitor</span>
-            <span className="hidden sm:block text-xs text-gray-500 font-normal">Indonesia · Unusual fire activity detection</span>
+            <span className="hidden md:block text-xs text-gray-500 font-normal">Indonesia · Unusual fire activity detection</span>
           </Link>
-          <div className="flex items-center gap-4 text-sm">
-            <Link href="/" className="text-gray-400 hover:text-white transition-colors">
+          <div className="flex items-center gap-3 text-sm ml-2">
+            <Link href="/" className="text-gray-400 hover:text-white transition-colors text-xs">
               Dashboard
             </Link>
-            <Link href="https://github.com/Itsavirus-com/anomalous-wildfire-hotspots-detection" className="text-gray-400 hover:text-white transition-colors">
-              <Image src="/GitHub_Invertocat_White_Clearspace.svg" alt="GitHub" width={20} height={20} />
-            </Link>
-            <Link href="/stats" className="text-gray-400 hover:text-white transition-colors">
+            <Link href="/stats" className="text-gray-400 hover:text-white transition-colors text-xs">
               Stats
             </Link>
-            <Link href="/updates" className="text-gray-400 hover:text-white transition-colors">
+            <Link href="/updates" className="hidden sm:block text-gray-400 hover:text-white transition-colors text-xs">
               Updates
             </Link>
           </div>
-          {/* NASA attribution badge */}
           <div className="ml-auto flex items-center gap-2">
-            <Image
-              src="/nasa-logo.svg"
-              alt="NASA"
-              width={20}
-              height={20}
-              className="opacity-70"
-            />
-            <span className="text-[11px] text-gray-500">
-              Made with{' '}
+            <Link href="https://github.com/Itsavirus-com/anomalous-wildfire-hotspots-detection" className="text-gray-400 hover:text-white transition-colors">
+              <Image src="/GitHub_Invertocat_White_Clearspace.svg" alt="GitHub" width={18} height={18} />
+            </Link>
+            <span className="hidden sm:flex items-center gap-1.5 text-[11px] text-gray-500">
+              <Image src="/nasa-logo.svg" alt="NASA" width={18} height={18} className="opacity-70" />
               <a
                 href="https://firms.modaps.eosdis.nasa.gov/"
                 target="_blank"
@@ -49,8 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 className="text-gray-400 hover:text-orange-400 transition-colors"
               >
                 NASA FIRMS
-              </a>{' '}
-              data
+              </a>
             </span>
           </div>
         </nav>
