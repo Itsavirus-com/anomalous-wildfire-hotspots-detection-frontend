@@ -22,7 +22,7 @@ export default function DashboardPage() {
         {/* CellPanel */}
         {panelOpen && (
           <div
-            className="absolute top-0 h-full w-80 z-10 transition-all duration-300"
+            className="absolute top-0 h-full w-72 z-10 transition-all duration-300"
             style={{ right: sidebarOpen ? '18rem' : '0' }}
           >
             <CellPanel />
