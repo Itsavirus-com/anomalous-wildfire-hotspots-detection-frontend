@@ -14,17 +14,14 @@ export default function DashboardPage() {
   const { panelOpen, sidebarOpen, toggleSidebar, closePanel } = useStore()
 
   return (
-    <div className="flex flex-1 overflow-hidden h-full relative">
+    <div className="flex flex-1 overflow-hidden h-full">
       {/* Map area */}
       <div className="relative flex-1 overflow-hidden">
         <WildfireMap />
 
-        {/* CellPanel */}
+        {/* CellPanel — sits on top of map, anchored to right edge of map area */}
         {panelOpen && (
-          <div
-            className="absolute top-0 h-full w-72 z-10 transition-all duration-300"
-            style={{ right: sidebarOpen ? '18rem' : '0' }}
-          >
+          <div className="absolute top-0 right-0 h-full w-72 z-10">
             <CellPanel />
           </div>
         )}
@@ -40,7 +37,7 @@ export default function DashboardPage() {
           />
         )}
 
-        {/* Show alerts button — only visible when sidebar is hidden */}
+        {/* Show alerts button — only when sidebar hidden */}
         {!sidebarOpen && (
           <button
             onClick={toggleSidebar}
@@ -55,14 +52,9 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* Alert sidebar */}
+      {/* Alert sidebar — relative on desktop, pushes map naturally */}
       <div
-        className={`
-          shrink-0 overflow-hidden transition-all duration-300 ease-in-out
-          ${sidebarOpen ? 'w-72' : 'w-0'}
-          absolute right-0 top-0 h-full z-10
-          md:relative md:z-auto
-        `}
+        className={`shrink-0 overflow-hidden transition-all duration-300 ease-in-out ${sidebarOpen ? 'w-72' : 'w-0'}`}
       >
         <div className="w-72 h-full">
           <AlertSidebar />
