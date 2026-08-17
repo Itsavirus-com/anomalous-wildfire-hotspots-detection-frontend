@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@deck.gl/core": "^8.9.36",
     "@deck.gl/geo-layers": "^8.9.36",
+    "@deck.gl/layers": "^8.9.36",
     "@deck.gl/mapbox": "^8.9.36",
     "@deck.gl/react": "^8.9.36",
     "date-fns": "^3.6.0",

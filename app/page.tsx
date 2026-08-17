@@ -14,7 +14,7 @@ export default function DashboardPage() {
   const { panelOpen, sidebarOpen, toggleSidebar, closePanel } = useStore()
 
   return (
-    <div className="flex flex-1 overflow-hidden h-full">
+    <div className="flex flex-1 min-h-0 overflow-hidden h-full">
       {/* Map area */}
       <div className="relative flex-1 overflow-hidden">
         <WildfireMap />
@@ -54,9 +54,9 @@ export default function DashboardPage() {
 
       {/* Alert sidebar — relative on desktop, pushes map naturally */}
       <div
-        className={`shrink-0 overflow-hidden transition-all duration-300 ease-in-out ${sidebarOpen ? 'w-72' : 'w-0'}`}
+        className={`shrink-0 h-full min-h-0 overflow-hidden transition-all duration-300 ease-in-out ${sidebarOpen ? 'w-72' : 'w-0'}`}
       >
-        <div className="w-72 h-full">
+        <div className="w-72 h-full min-h-0">
           <AlertSidebar />
         </div>
       </div>
