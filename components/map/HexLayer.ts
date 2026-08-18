@@ -30,7 +30,7 @@ export function buildHexLayer(
     getFillColor: (d: MapCell) => scoreToColor(d),
     getElevation: (d: MapCell) => cellElevation(d),
     extruded: true,
-    coverage: 0.92,
+    coverage: 1.15,
     elevationScale: 1,
     stroked: true,
     getLineColor: [255, 255, 255, 30],
