@@ -87,9 +87,9 @@ function Tag({ tag }: { tag: PostTag }) {
 
 export default function UpdatesPage() {
   return (
-    <div className="min-h-full bg-gray-950 text-gray-100">
+    <div className="flex flex-col h-full min-h-0 bg-gray-950 text-gray-100">
       {/* Header */}
-      <div className="border-b border-gray-800 bg-gray-900/60 backdrop-blur-sm">
+      <div className="shrink-0 border-b border-gray-800 bg-gray-900/60 backdrop-blur-sm">
         <div className="max-w-3xl mx-auto px-6 py-10">
           <p className="text-xs font-semibold uppercase tracking-widest text-orange-400 mb-2">
             Changelog
@@ -105,84 +105,88 @@ export default function UpdatesPage() {
       </div>
 
       {/* Posts */}
-      <div className="max-w-3xl mx-auto px-6 py-10">
-        <div className="relative">
-          {/* Vertical timeline line */}
-          <div className="absolute left-[5.5rem] top-0 bottom-0 w-px bg-gray-800 hidden sm:block" />
+      <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
+        <div className="max-w-3xl mx-auto px-6 py-10">
+          <div className="relative">
+            {/* Vertical timeline line */}
+            <div className="absolute left-[5.5rem] top-0 bottom-0 w-px bg-gray-800 hidden sm:block" />
 
-          <div className="space-y-12">
-            {posts.map((post) => (
-              <article key={post.version} className="relative sm:flex gap-8">
-                {/* Left: version + date */}
-                <div className="sm:w-24 shrink-0 flex sm:flex-col items-center sm:items-end gap-2 sm:gap-1 mb-3 sm:mb-0">
-                  <span className="font-mono text-xs font-bold text-orange-400 sm:text-right">
-                    {post.version}
-                  </span>
-                  <span className="text-[11px] text-gray-600 sm:text-right whitespace-nowrap">
-                    {post.date}
-                  </span>
-                </div>
-
-                {/* Timeline dot */}
-                <div className="hidden sm:flex items-start justify-center w-0 relative">
-                  <div className="absolute -left-2 top-1 w-3.5 h-3.5 rounded-full bg-orange-500 border-2 border-gray-950 z-10" />
-                </div>
-
-                {/* Right: content */}
-                <div className="flex-1 bg-gray-900/60 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition-colors">
-                  <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <h2 className="text-base font-semibold text-white">
-                      {post.title}
-                    </h2>
-                    <div className="flex gap-1.5 flex-wrap">
-                      {post.tags.map((tag) => (
-                        <Tag key={tag} tag={tag} />
-                      ))}
-                    </div>
+            <div className="space-y-12">
+              {posts.map((post) => (
+                <article key={post.version} className="relative sm:flex gap-8">
+                  {/* Left: version + date */}
+                  <div className="sm:w-24 shrink-0 flex sm:flex-col items-center sm:items-end gap-2 sm:gap-1 mb-3 sm:mb-0">
+                    <span className="font-mono text-xs font-bold text-orange-400 sm:text-right">
+                      {post.version}
+                    </span>
+                    <span className="text-[11px] text-gray-600 sm:text-right whitespace-nowrap">
+                      {post.date}
+                    </span>
                   </div>
-                  <ul className="space-y-1.5">
-                    {post.body.map((line, i) => (
-                      <li
-                        key={i}
-                        className="flex gap-2 text-sm text-gray-400 leading-relaxed"
-                      >
-                        <span className="text-orange-500 mt-1 shrink-0">·</span>
-                        <span>{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
 
-        {/* NASA attribution footer */}
-        <div className="mt-16 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-          <Image
-            src="/nasa-logo.svg"
-            alt="NASA logo"
-            width={56}
-            height={56}
-            className="opacity-80 shrink-0"
-          />
-          <div>
-            <p className="text-sm font-medium text-gray-300">
-              Powered by NASA Earth Observation Data
-            </p>
-            <p className="text-xs text-gray-600 mt-0.5 leading-relaxed">
-              Fire hotspot data sourced from{" "}
-              <a
-                href="https://firms.modaps.eosdis.nasa.gov/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-orange-400 hover:text-orange-300 underline underline-offset-2"
-              >
-                NASA FIRMS
-              </a>{" "}
-              (Fire Information for Resource Management System) via MODIS and
-              VIIRS satellite instruments.
-            </p>
+                  {/* Timeline dot */}
+                  <div className="hidden sm:flex items-start justify-center w-0 relative">
+                    <div className="absolute -left-2 top-1 w-3.5 h-3.5 rounded-full bg-orange-500 border-2 border-gray-950 z-10" />
+                  </div>
+
+                  {/* Right: content */}
+                  <div className="flex-1 bg-gray-900/60 border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition-colors">
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <h2 className="text-base font-semibold text-white">
+                        {post.title}
+                      </h2>
+                      <div className="flex gap-1.5 flex-wrap">
+                        {post.tags.map((tag) => (
+                          <Tag key={tag} tag={tag} />
+                        ))}
+                      </div>
+                    </div>
+                    <ul className="space-y-1.5">
+                      {post.body.map((line, i) => (
+                        <li
+                          key={i}
+                          className="flex gap-2 text-sm text-gray-400 leading-relaxed"
+                        >
+                          <span className="text-orange-500 mt-1 shrink-0">
+                            ·
+                          </span>
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {/* NASA attribution footer */}
+          <div className="mt-16 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+            <Image
+              src="/nasa-logo.svg"
+              alt="NASA logo"
+              width={56}
+              height={56}
+              className="opacity-80 shrink-0"
+            />
+            <div>
+              <p className="text-sm font-medium text-gray-300">
+                Powered by NASA Earth Observation Data
+              </p>
+              <p className="text-xs text-gray-600 mt-0.5 leading-relaxed">
+                Fire hotspot data sourced from{" "}
+                <a
+                  href="https://firms.modaps.eosdis.nasa.gov/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-orange-400 hover:text-orange-300 underline underline-offset-2"
+                >
+                  NASA FIRMS
+                </a>{" "}
+                (Fire Information for Resource Management System) via MODIS and
+                VIIRS satellite instruments.
+              </p>
+            </div>
           </div>
         </div>
       </div>
